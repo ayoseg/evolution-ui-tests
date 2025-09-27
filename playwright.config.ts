@@ -8,6 +8,12 @@ import { defineConfig, devices } from '@playwright/test';
 // import path from 'path';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
+// @ts-ignore
+import dotenv from 'dotenv';
+dotenv.config();
+
+
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -43,15 +49,28 @@ export default defineConfig({
     //   use: { ...devices['Desktop Chrome'] },
     // },
     {
-      name: "Google Chrome",
+      name: "staging",
       use: {
         channel: "chrome",
         headless: false,
         viewport: { width: 1600, height: 1000},
         trace: 'on',
-        screenshot: 'on'
+        screenshot: 'on',
+        baseURL: 'https://stageconcept.dwp-estates-integrator.co.uk/wpstest/!System/Security/Login.aspx?ReturnUrl=%2fwpstest%2f/',
       }, // This project will run on the computer's chrome browser
     },
+
+    // {
+    //   name: "live",
+    //   use: {
+    //     channel: "chrome",
+    //     headless: false,
+    //     viewport: { width: 1600, height: 1000},
+    //     trace: 'on',
+    //     screenshot: 'on',
+    //     baseURL: 'https://anotherpage.com',
+    //   }, // This project will run on the computer's chrome browser
+    // },
 
     // {
     //   name: 'firefox',

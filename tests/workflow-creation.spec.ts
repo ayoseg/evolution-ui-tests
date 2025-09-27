@@ -1,9 +1,10 @@
 import { expect } from '@playwright/test'
 import { test } from '../fixtures/wom.fixtures'
+import '../playwright.config'
 
 test.beforeEach(async ({ loginPage}) => {
     await loginPage.navigate();
-    await loginPage.login("AUTOTEST", "Autotest")
+    await loginPage.login(process.env.Username, process.env.Password)
 
 });
 test('Work Order is created', async ({  homePage }) => {
