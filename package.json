@@ -1,0 +1,15 @@
+{
+  "name": "evolution-ui-tests",
+  "version": "1.0.0",
+  "description": "Test Evolution UI",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test tests/workflow-creation.spec.ts"
+  },
+  "author": "Edward Benson",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.55.1",
+    "@types/node": "^24.5.2"
+  }
+}
