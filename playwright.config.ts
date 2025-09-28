@@ -56,21 +56,21 @@ export default defineConfig({
         viewport: { width: 1600, height: 1000},
         trace: 'on',
         screenshot: 'on',
-        baseURL: 'https://stageconcept.dwp-estates-integrator.co.uk/wpstest/!System/Security/Login.aspx?ReturnUrl=%2fwpstest%2f/',
+        baseURL: 'https://stageconcept.dwp-estates-integrator.co.uk/',
       }, // This project will run on the computer's chrome browser
     },
 
-    // {
-    //   name: "live",
-    //   use: {
-    //     channel: "chrome",
-    //     headless: false,
-    //     viewport: { width: 1600, height: 1000},
-    //     trace: 'on',
-    //     screenshot: 'on',
-    //     baseURL: 'https://anotherpage.com',
-    //   }, // This project will run on the computer's chrome browser
-    // },
+    {
+      name: "live",
+      use: {
+        channel: "chrome",
+        headless: false,
+        viewport: { width: 1600, height: 1000},
+        trace: 'on',
+        screenshot: 'on',
+        baseURL: 'https://anotherpage.com',
+      }, // This project will run on the computer's chrome browser
+    },
 
     // {
     //   name: 'firefox',

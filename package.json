@@ -4,7 +4,7 @@
   "description": "Test Evolution UI",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test tests/workflow-creation.spec.ts"
+    "test": "npx playwright test --project=staging tests/workflow-creation.spec.ts"
   },
   "author": "Edward Benson",
   "license": "ISC",

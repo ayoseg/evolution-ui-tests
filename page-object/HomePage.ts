@@ -8,7 +8,8 @@ export function setNWOFieldLocator(page) {
     let userDefineInput = page.locator('input[id="ctl00_ctl00_contentPlaceHolderRoot_contentPlaceHolder_F_TASKSEditor_ctl00_autoCompleteUserDefined_comboBox_Input"]');
     let labelDisplayText = page.locator('input[name="ctl00$ctl00$detailHeaderPlaceHolder$labelDisplayText"]');
     let saveTaskButton = page.locator('input[value="Save Task"]')
-    let saveDropButton = page.locator('div[class="x-button x-button-drop"]')
+    let saveButton = page.locator('span[class="x-button x-button-text"]')
+    let duplicateWOModal = page.locator('#ctl00_ctl00_ctl31_container')
 
 
     return {
@@ -19,7 +20,8 @@ export function setNWOFieldLocator(page) {
         userDefineInput: userDefineInput,
         labelDisplayText: labelDisplayText,
         saveTaskButton: saveTaskButton,
-        saveDropButton: saveDropButton
+        saveButton: saveButton,
+        duplicateWOModal: duplicateWOModal
     }
 }
 
@@ -53,18 +55,25 @@ export class HomePage {
         expect(title).toBe('New Entity')
         const newOrderPageObjs = setNWOFieldLocator(nwoPage)
         await newOrderPageObjs.buildingInput.fill(building.split(" ")[0])
-        await nwoPage.getByText(building).click()
+        await nwoPage.getByText(building).first().click()
         await newOrderPageObjs.locationInput.fill(location.split(" ")[0])
-        await nwoPage.getByText(location).click()
+        await nwoPage.getByText(location).first().click()
         await newOrderPageObjs.problemInput.fill(problem.split(" ")[0])
-        await nwoPage.getByText(problem).click()
+        await nwoPage.getByText(problem).first().click()
         await newOrderPageObjs.sourceInput.fill(source)
         await nwoPage.getByText(source).click()
         await newOrderPageObjs.userDefineInput.click()
         await nwoPage.getByText(userDefine).click()
-        await newOrderPageObjs.saveDropButton.click()
-        await nwoPage.getByText("Save and Close").click()
-        await newOrderPageObjs.saveTaskButton.click()
+        //await newOrderPageObjs.saveDropButton.click()
+        await newOrderPageObjs.saveButton.click()
+        const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+        await delay(5000);
+        let styleText = await newOrderPageObjs.duplicateWOModal.getAttribute("style")
+        console.log(" Style value is " + styleText)
+        if (!styleText.includes("display:"))
+        {
+            await newOrderPageObjs.saveTaskButton.click()
+        }
         let workOrderId = await newOrderPageObjs.labelDisplayText.getAttribute("value")
         console.log(".......................... " + workOrderId)
         await nwoPage.close()

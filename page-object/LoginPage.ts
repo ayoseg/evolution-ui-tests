@@ -8,7 +8,8 @@ export class LoginPage {
     public loginButton = this.page.locator('input[value="Log In"]');
 
     async navigate() {
-        await this.page.goto('https://stageconcept.dwp-estates-integrator.co.uk/wpstest/!System/Security/Login.aspx?ReturnUrl=%2fwpstest%2f');
+        await this.page.goto('/wpstest/!System/Security/Login.aspx?ReturnUrl=%2fwpstest%2f');
+        //await this.page.goto(baseU);
     }
 
     async fillUsernameInput(text: string) {

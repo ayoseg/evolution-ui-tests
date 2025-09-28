@@ -12,6 +12,8 @@ test('Work Order is created', async ({  homePage }) => {
         "620159 - Kendal Kentmere House",
         "1 - First Floor - 620159-011",
         "Panic Alarm Activation - Emergency Response - P&R Required",
+        //"1 - Server Room - 620159-020",
+        //"CCTV Image Request - Cat 1 - Police",
         "Email - DWP",
         "MINOR"
     )
