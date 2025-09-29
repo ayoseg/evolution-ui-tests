@@ -10,6 +10,7 @@ export function setNWOFieldLocator(page) {
     let saveTaskButton = page.locator('input[value="Save Task"]')
     let saveButton = page.locator('span[class="x-button x-button-text"]')
     let duplicateWOModal = page.locator('#ctl00_ctl00_ctl31_container')
+    let processSpinner = page.locator('#ctl00_ctl00_updateProgress')
 
 
     return {
@@ -21,7 +22,8 @@ export function setNWOFieldLocator(page) {
         labelDisplayText: labelDisplayText,
         saveTaskButton: saveTaskButton,
         saveButton: saveButton,
-        duplicateWOModal: duplicateWOModal
+        duplicateWOModal: duplicateWOModal,
+        processSpinner: processSpinner
     }
 }
 
@@ -64,13 +66,18 @@ export class HomePage {
         await nwoPage.getByText(source).click()
         await newOrderPageObjs.userDefineInput.click()
         await nwoPage.getByText(userDefine).click()
-        //await newOrderPageObjs.saveDropButton.click()
         await newOrderPageObjs.saveButton.click()
-        const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
-        await delay(5000);
-        let styleText = await newOrderPageObjs.duplicateWOModal.getAttribute("style")
-        console.log(" Style value is " + styleText)
-        if (!styleText.includes("display:"))
+
+        let woSpinnerStyleText
+        do
+        {
+            woSpinnerStyleText = await newOrderPageObjs.processSpinner.getAttribute("style")
+            //console.log("woSpinner Style value is " + woSpinnerStyleText );
+        } while(!woSpinnerStyleText.includes("none"));
+
+        let woModalStyleText = await newOrderPageObjs.duplicateWOModal.getAttribute("style")
+        console.log("woModal Style value is " + woModalStyleText)
+        if (!woModalStyleText.includes("display:"))
         {
             await newOrderPageObjs.saveTaskButton.click()
         }
