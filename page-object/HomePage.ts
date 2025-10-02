@@ -3,7 +3,7 @@ import { WorkOrderPage } from "./WorkOrderPage";
 import {WorkOrderNewDocumentPage} from "./WorkOrderNewDocumentPage";
 
 export class HomePage {
-    constructor(public page: Page) {}
+    constructor(private page: Page) {}
 
 
     public wom = this.page.locator('a[title="Work Order Management"]');
@@ -26,7 +26,7 @@ export class HomePage {
             await dialog.accept();
         });
     }
-    async createNewWorkOrder(building, location, problem, source, userDefine) {
+    async createNewWorkOrder(building: string, location: string, problem: string, source: string, userDefine: string) {
         await this.wom.click();
         await this.workOrders.click();
         const [nwoPage] = await Promise.all([
@@ -49,16 +49,16 @@ export class HomePage {
         await nwoPage.getByText(userDefine).click()
         await workOrderPage.saveButton.click()
 
-        let woSpinnerStyleText
+        let woSpinnerStyleText: string | null
         do
         {
             woSpinnerStyleText = await workOrderPage.processSpinner.getAttribute("style")
             //console.log("woSpinner Style value is " + woSpinnerStyleText );
-        } while(!woSpinnerStyleText.includes("none"));
+        } while(!woSpinnerStyleText || !woSpinnerStyleText.includes("none"));
 
         let woModalStyleText = await workOrderPage.duplicateWOModal.getAttribute("style")
         console.log("woModal Style value is " + woModalStyleText)
-        if (!woModalStyleText.includes("display:"))
+        if (!woModalStyleText || !woModalStyleText.includes("display:"))
         {
             await workOrderPage.saveTaskButton.click()
         }
@@ -70,7 +70,7 @@ export class HomePage {
         }
     }
 
-    async uploadWODocument(page: Page, workOrderId, _class, repository, fileName) {
+    async uploadWODocument(page: Page, workOrderId: string, _class: string, repository: string, fileName: string) {
         const workOrderPage = new WorkOrderPage(page)
         await workOrderPage.woDocumentNavLink.click()
         const [newDocPage] = await Promise.all([
@@ -88,7 +88,7 @@ export class HomePage {
         await newDocPage.getByText("Save and Close").click()
     }
 
-    async closeWindow(page){
+    async closeWindow(page: Page){
         await page.close()
     }
 
@@ -96,9 +96,9 @@ export class HomePage {
         await this.page.getByText("Lognotes").first().click()
     }
 
-    async searchForWorkOrderById(tabName, workOrderId) {
+    async searchForWorkOrderById(tabName: string, workOrderId: string | null) {
         await this.page.waitForLoadState()
-        let workOrderIdSubString = workOrderId.split(" ")[0]
+        let workOrderIdSubString = workOrderId!.split(" ")[0]
         if (tabName === "WO") {
             await expect(this.woProcessSpinner).toHaveCount(0)
             await this.workOrderIdWOSearchField.fill(workOrderIdSubString)
@@ -112,7 +112,7 @@ export class HomePage {
                 console.log("Waiting for spinner to disappear" );
             } while(tableDataText.length < 2);
             await this.workOrderIdLNSearchField.fill(workOrderIdSubString)
-            await this.page.getByText(workOrderId).click()
+            await this.page.getByText(workOrderId!).click()
         }
 
     }

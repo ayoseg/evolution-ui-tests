@@ -5,7 +5,10 @@ import {WorkOrderPage} from "../page-object/WorkOrderPage";
 
 test.beforeEach(async ({ loginPage}) => {
     await loginPage.navigate();
-    await loginPage.login(process.env.Username, process.env.Password)
+    if (!process.env.WPS_USERNAME || !process.env.WPS_PASSWORD) {
+        throw new Error('Missing WPS_USERNAME or WPS_PASSWORD in .env file');
+    }
+    await loginPage.login(process.env.WPS_USERNAME, process.env.WPS_PASSWORD)
 
 });
 test('1-Work Order is created', async ({  homePage }) => {
@@ -24,7 +27,7 @@ test('1-Work Order is created', async ({  homePage }) => {
     await expect(homePage.woSearchResultWORowData.nth(4)).toContainText('ASSIGNED')
 
     await homePage.searchForWorkOrderById("LN", workOrderObj.workOrderId)
-    await expect(homePage.lnTableData.nth(1)).toContainText(workOrderObj.workOrderId)
+    await expect(homePage.lnTableData.nth(1)).toContainText(workOrderObj.workOrderId!)
     await expect(homePage.lnTableData.nth(4)).toContainText('Work Order Created')
 
 });
@@ -41,7 +44,7 @@ test('2-Work Order is created and document uploaded', async ({  homePage }) => {
 
     await homePage.uploadWODocument(
         workOrderObj.page,
-        workOrderObj.workOrderId,
+        workOrderObj.workOrderId!,
         "Completion Certificates",
         "Mitie FM (Manned Guarding)",
         "fixtures/files/25 Advanced Guitar Chords.pdf"
