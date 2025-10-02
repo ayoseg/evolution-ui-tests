@@ -1,6 +1,5 @@
 import {expect, Page} from '@playwright/test'
 import { WorkOrderPage } from "./WorkOrderPage";
-import {WorkOrderNewDocumentPage} from "./WorkOrderNewDocumentPage";
 
 export class HomePage {
     constructor(private page: Page) {}
@@ -68,24 +67,6 @@ export class HomePage {
             page: nwoPage,
             workOrderId: workOrderId
         }
-    }
-
-    async uploadWODocument(page: Page, workOrderId: string, _class: string, repository: string, fileName: string) {
-        const workOrderPage = new WorkOrderPage(page)
-        await workOrderPage.woDocumentNavLink.click()
-        const [newDocPage] = await Promise.all([
-            page.waitForEvent('popup'),
-            await page.getByText("New").first().click()
-        ])
-        const workOrderNewDocumentPage  = new WorkOrderNewDocumentPage(newDocPage)
-        await workOrderNewDocumentPage.docRefInput.fill(workOrderId)
-        await workOrderNewDocumentPage.classInput.fill(_class.split(" ")[0])
-        await newDocPage.getByText(_class).click()
-        await workOrderNewDocumentPage.repositoryInput.fill(repository.split(" ")[0])
-        await newDocPage.getByText(repository).click()
-        await workOrderNewDocumentPage.fileInput.setInputFiles(fileName)
-        console.log(".............................................. Page 1 " + page.url());
-        await newDocPage.getByText("Save and Close").click()
     }
 
     async closeWindow(page: Page){
