@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
 
-   "test": "npx playwright test --project=staging -g '2-Work Order is created and document uploaded'"
+   "test": "npx playwright test --project=staging -g '1-Work Order is created'"
   },
   "author": "Edward Benson",
   "license": "ISC",

@@ -14,8 +14,9 @@ export class WorkOrderPage {
     public saveButton = this.page.locator('span[class="x-button x-button-text"]')
     public duplicateWOModal = this.page.locator('#ctl00_ctl00_ctl31_container')
     public processSpinner = this.page.locator('#ctl00_ctl00_updateProgress')
+    public resourceProcessSpinner = this.page.locator('#ctl00_ctl00_contentPlaceHolderRoot_contentPlaceHolder_F_TASKSEditor_ctl00_fsiGridTaskResourcesCombinedUpdateProgress')
     public woDocumentNavLink = this.page.locator('a[title="Documents"]').first()
-    public woLogNotesLink = this.page.locator('a[title="Lognotes"]').first()
+    public woResourceLink = this.page.locator('a[title="Resource"]').first()
     public refesh = this.page.locator('#ctl00_ctl00_ToolbarEx_Refresh .icon')
     public status = this.page.locator('#ctl00_ctl00_detailHeaderPlaceHolder_labelPageAdditionalInfo').first()
     public woDocumentTable = this.page.locator('#ctl00_ctl00_contentPlaceHolderRoot_contentPlaceHolder_editorDocumentAssignment_ctl00_gridDocumentAssignment_innerGrid_ctl00__0>td')
@@ -23,8 +24,12 @@ export class WorkOrderPage {
 
 
     async checkWOStatusAndLogNotes(status: string, lognoteText: string) {
-        await this.page.waitForTimeout(6000)
-        await this.woLogNotesLink.click()
+        await this.page.getByText("General").first().click()
+        await this.woResourceLink.click()
+        await expect(this.resourceProcessSpinner).toHaveCount(0)
+        await this.page.getByText("Lognotes").first().click()
+        await this.refesh.click()
+        await this.refesh.click()
         await expect(this.status).toContainText(status)
         await expect(this.woLogNotesTable.nth(1)).toHaveText(lognoteText)
         await this.page.close()
