@@ -13,9 +13,13 @@ test.beforeEach(async ({ loginPage}) => {
 });
 test('1-Work Order is created', async ({  homePage }) => {
     const workOrderObj = await homePage.createNewWorkOrder(
+        null,
+        null,
+        null,
         "620159 - Kendal Kentmere House",
         "1 - First Floor - 620159-011",
         "Panic Alarm Activation - Emergency Response - P&R Required",
+        null,
         "Email - DWP",
         "MINOR"
     )
@@ -25,9 +29,13 @@ test('1-Work Order is created', async ({  homePage }) => {
 
 test('2-Work Order is created and document uploaded', async ({  homePage }) => {
     const workOrderObj = await homePage.createNewWorkOrder(
+        null,
+        null,
+        null,
         "620159 - Kendal Kentmere House",
         "1 - First Floor - 620159-011",
         "Panic Alarm Activation - Emergency Response - P&R Required",
+        null,
         "Email - DWP",
         "MINOR"
     )
@@ -41,3 +49,26 @@ test('2-Work Order is created and document uploaded', async ({  homePage }) => {
     await workOrderPage.checkForUploadedDocument('Document')
 });
 
+test('3-Manned Guarding- AFP Review / CMT Post WO Completion Audit - ', async ({  homePage }) => {
+    const workOrderObj = await homePage.createNewWorkOrder(
+        "Test",
+        "Test",
+        "Test",
+        "620380 - Chelmsley Wood JCP",
+        "0 - Whole Building - 620380-000",
+        "In Hours Additional Guard - DWP Request",
+        "***TEST - -- WO Created to prove the SCC API -- TEST***",
+        "Email - DWP",
+        "MINOR"
+    )
+    const workOrderPage = new WorkOrderPage(workOrderObj.page)
+    // const page = await homePage.openExistingWorkOrder("MSS:416")
+    // const workOrderPage = new WorkOrderPage(page)
+    await workOrderPage.checkWorkOrderCompletionTest(workOrderObj.workOrderId!,"KBR Incidents Mailbox", "120", "20", "All Estimated Costs Provided")
+    //await workOrderPage.checkWOStatusAndLogNotes('ASSIGNED', 'Work Order Created')
+});
+
+
+//AFP Review
+
+//CMT Post WO Completion Audit

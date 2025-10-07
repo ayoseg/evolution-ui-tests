@@ -25,9 +25,19 @@ export class HomePage {
             await dialog.accept();
         });
     }
-    async createNewWorkOrder(building: string, location: string, problem: string, source: string, userDefine: string) {
+    async createNewWorkOrder(
+        reporter: string | null,
+        email: string | null,
+        phone: string | null,
+        building: string,
+        location: string,
+        problem: string,
+        description: string | null,
+        source: string,
+        userDefine: string
+    ) {
         await this.wom.click();
-        await this.workOrders.click();
+        await this.page.getByText("Work Orders").last().click();
         const [nwoPage] = await Promise.all([
             this.page.waitForEvent('popup'),
             await this.newWorkOrders.click()
@@ -36,12 +46,27 @@ export class HomePage {
         const title = await nwoPage.title()
         expect(title).toBe('New Entity')
         const workOrderPage = new WorkOrderPage(nwoPage)
+        if(reporter!) {} {
+            await workOrderPage.reporterInput.fill(reporter!)
+            await nwoPage.keyboard.press("Enter")
+        }
+        if(email!) {} {
+            await workOrderPage.emailInput.fill(email!)
+        }
+        if(phone!) {} {
+            await workOrderPage.phoneInput.fill(phone!)
+        }
         await workOrderPage.buildingInput.fill(building.split(" ")[0])
         await nwoPage.getByText(building).first().click()
         await workOrderPage.locationInput.fill(location.split(" ")[0])
         await nwoPage.getByText(location).first().click()
         await workOrderPage.problemInput.fill(problem.split(" ")[0])
         await nwoPage.getByText(problem).first().click()
+        //await nwoPage.getByText("Append").last().click()
+        if(description!) {} {
+            await workOrderPage.descriptionTextArea.clear()
+            await workOrderPage.descriptionTextArea.fill(description!)
+        }
         await workOrderPage.sourceInput.fill(source)
         await nwoPage.getByText(source).click()
         await workOrderPage.userDefineInput.click()
@@ -96,5 +121,17 @@ export class HomePage {
             await this.page.getByText(workOrderId!).click()
         }
 
+    }
+
+    async openExistingWorkOrder(workOrderId: string) {
+        await this.wom.click();
+        await this.page.getByText("Work Orders").last().click();
+        await this.searchForWorkOrderById("WO", workOrderId)
+
+        const [nwoPage] = await Promise.all([
+            this.page.waitForEvent('popup'),
+            await this.woSearchResultWORowData.nth(1).click()
+        ])
+        return nwoPage
     }
 }

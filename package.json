@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
 
-   "test": "npx playwright test --project=staging -g '1-Work Order is created'"
+   "test": "npx playwright test --project=staging -g '3-Manned Guarding- AFP Review / CMT Post WO Completion Audit - '"
   },
   "author": "Edward Benson",
   "license": "ISC",
