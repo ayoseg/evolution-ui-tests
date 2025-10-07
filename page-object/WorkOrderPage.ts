@@ -120,6 +120,8 @@ export class WorkOrderPage {
         const workOrderPage = new WorkOrderPage(newLognoteEntryPage)
         await workOrderPage.eventInput.fill(logNoteComment)
         await newLognoteEntryPage.getByText(logNoteComment).click()
+        await newLognoteEntryPage.waitForTimeout(3000)
+        await workOrderPage.commentTextArea.click()
         await workOrderPage.commentTextArea.fill(logNoteComment)
         await newLognoteEntryPage.getByText("Save and Close").click()
     }
