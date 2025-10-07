@@ -53,6 +53,7 @@ export default defineConfig({
       use: {
         channel: "chrome",
         headless: false,
+        launchOptions: { slowMo: 400 },
         viewport: { width: 1600, height: 1000},
         trace: 'on',
         screenshot: 'on',
