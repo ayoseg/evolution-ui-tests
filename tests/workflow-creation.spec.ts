@@ -49,24 +49,32 @@ test('2-Work Order is created and document uploaded', async ({  homePage }) => {
     await workOrderPage.checkForUploadedDocument('Document')
 });
 
-test('3-Manned Guarding- AFP Review / CMT Post WO Completion Audit - ', async ({  homePage }) => {
-    const workOrderObj = await homePage.createNewWorkOrder(
-        "Test",
-        "Test",
-        "Test",
-        "620380 - Chelmsley Wood JCP",
-        "0 - Whole Building - 620380-000",
-        "In Hours Additional Guard - DWP Request",
-        "***TEST - -- WO Created to prove the SCC API -- TEST***",
-        "Email - DWP",
-        "MINOR"
-    )
-    const workOrderPage = new WorkOrderPage(workOrderObj.page)
-    // const page = await homePage.openExistingWorkOrder("MSS:416")
-    // const workOrderPage = new WorkOrderPage(page)
-    await workOrderPage.checkWorkOrderCompletionTest(workOrderObj.workOrderId!,"KBR Incidents Mailbox", "120", "20", "All Estimated Costs Provided")
-    //await workOrderPage.checkWOStatusAndLogNotes('ASSIGNED', 'Work Order Created')
-});
+for(let i = 1; i < 11; i++) {
+    test(`3-Manned Guarding- AFP Review / CMT Post WO Completion Audit - ${i}`, async ({homePage}) => {
+        const workOrderObj = await homePage.createNewWorkOrder(
+            "Test",
+            "Test",
+            "Test",
+            "620380 - Chelmsley Wood JCP",
+            "0 - Whole Building - 620380-000",
+            "In Hours Additional Guard - DWP Request",
+            "***TEST - -- WO Created to prove the SCC API -- TEST***",
+            "Email - DWP",
+            "MINOR"
+        )
+        const workOrderPage = new WorkOrderPage(workOrderObj.page)
+        // const page = await homePage.openExistingWorkOrder("MSS:416")
+        // const workOrderPage = new WorkOrderPage(page)
+        await workOrderPage.checkWorkOrderCompletionTest(workOrderObj.workOrderId!,"KBR Incidents Mailbox", "120", "20", "All Estimated Costs Provided")
+        console.log("aaaaaaaaaaa      aaaaaa............................. " + i)
+        if( i == 10 ) {
+            await expect(workOrderPage.woStatusInput).toHaveValue("CMT Post WO Completion Audit")
+        } else {
+            await expect(workOrderPage.woStatusInput).toHaveValue("AFP Review")
+        }
+        //await workOrderPage.checkWOStatusAndLogNotes('ASSIGNED', 'Work Order Created')
+    });
+}
 
 
 //AFP Review

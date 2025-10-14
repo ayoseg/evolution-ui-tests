@@ -79,7 +79,7 @@ export class WorkOrderPage {
         await this.page.getByText("General").first().click()
         await this.page.waitForTimeout(5000)
         await this.page.getByText("General").first().click()
-        await expect(this.woStatusInput).toHaveValue(/AFP Review|CMT Post WO Completion Audit/)
+
 
     }
 

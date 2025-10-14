@@ -21,7 +21,7 @@ export class LoginPage {
     }
 
     async clickLoginButton() {
-        await this.loginButton.click();
+        await this.loginButton.click()
     }
 
     async login (userName: string, password: string) {
