@@ -66,7 +66,7 @@ for(let i = 1; i < 11; i++) {
         // const page = await homePage.openExistingWorkOrder("MSS:416")
         // const workOrderPage = new WorkOrderPage(page)
         await workOrderPage.checkWorkOrderCompletionTest(workOrderObj.workOrderId!,"KBR Incidents Mailbox", "120", "20", "All Estimated Costs Provided")
-        console.log("aaaaaaaaaaa      aaaaaa............................. " + i)
+        console.log("Status is ............................. " + i + " " + await workOrderPage.woStatusInput.getAttribute("value"))
         if( i == 10 ) {
             await expect(workOrderPage.woStatusInput).toHaveValue("CMT Post WO Completion Audit")
         } else {
