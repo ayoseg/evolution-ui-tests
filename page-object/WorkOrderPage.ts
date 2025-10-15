@@ -53,7 +53,7 @@ export class WorkOrderPage {
     }
 
     async checkWorkOrderCompletionTest(workOrderId: string, requestBy: string, estLabour: string | null, estMaterial: string | null, logNoteComment: string) {
-        await this.page.waitForTimeout(4000)
+        await this.page.waitForTimeout(2000)
         await this.woResourceLink.click()
         await this.changeWOStatus("Acknowledged")
         await this.checkForCollapsedHeader()
@@ -61,9 +61,9 @@ export class WorkOrderPage {
         await this.addLognotes(logNoteComment)
         await this.woResourceLink.click()
         await this.page.waitForLoadState()
-        //await this.page.getByText("Lognotes").first().click()
-        //await this.page.waitForLoadState()
-        await this.page.waitForTimeout(5000)
+        await this.page.waitForTimeout(2000)
+        await this.page.getByText("General").first().click()
+        await this.page.waitForTimeout(3000)
         await this.page.getByText("General").first().click()
         await expect(this.woStatusInput).toHaveValue('WO Approved to Proceed')
         await this.changeWOStatus("Arrived")
@@ -77,7 +77,7 @@ export class WorkOrderPage {
         await this.addActualCosts(estLabour, estMaterial)
         await this.changeWOStatus("Work Order Complete")
         await this.page.getByText("General").first().click()
-        await this.page.waitForTimeout(5000)
+        await this.page.waitForTimeout(3000)
         await this.page.getByText("General").first().click()
 
 

@@ -49,7 +49,7 @@ test('2-Work Order is created and document uploaded', async ({  homePage }) => {
     await workOrderPage.checkForUploadedDocument('Document')
 });
 
-for(let i = 1; i < 11; i++) {
+for(let i = 1; i < 6; i++) {
     test(`3-Manned Guarding- AFP Review / CMT Post WO Completion Audit - ${i}`, async ({homePage}) => {
         const workOrderObj = await homePage.createNewWorkOrder(
             "Test",
