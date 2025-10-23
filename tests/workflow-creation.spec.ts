@@ -65,7 +65,14 @@ for(let i = 1; i < 6; i++) {
         const workOrderPage = new WorkOrderPage(workOrderObj.page)
         // const page = await homePage.openExistingWorkOrder("MSS:416")
         // const workOrderPage = new WorkOrderPage(page)
-        await workOrderPage.checkWorkOrderCompletionTest(workOrderObj.workOrderId!,"KBR Incidents Mailbox", "120", "20", "All Estimated Costs Provided")
+        await workOrderPage.checkWorkOrderCompletionTest(
+            workOrderObj.workOrderId!,
+            "KBR Incidents Mailbox",
+            "120",
+            "20",
+            "120",
+            "20",
+            "All Estimated Costs Provided")
         console.log("Status is ............................. " + i + " " + await workOrderPage.woStatusInput.getAttribute("value"))
         if( i == 10 ) {
             await expect(workOrderPage.woStatusInput).toHaveValue("CMT Post WO Completion Audit")
@@ -76,6 +83,36 @@ for(let i = 1; i < 6; i++) {
     });
 }
 
+[
+    { actLabour: "120", actMaterial: "20", expected: "AFP Review"},
+    { actLabour: "108", actMaterial: "18", expected: "AFP Review"},
+    { actLabour: "132", actMaterial: "22", expected: "CMT Post WO Completion Audit"}
+].forEach(({actLabour, actMaterial, expected}) => {
+    test(`4-Manned Guarding- AFP Review / CMT Post WO Completion Audit - ${actLabour}`, async ({homePage}) => {
+        const workOrderObj = await homePage.createNewWorkOrder(
+            "Test",
+            "Test",
+            "Test",
+            "620380 - Chelmsley Wood JCP",
+            "0 - Whole Building - 620380-000",
+            "In Hours Additional Guard - DWP Request",
+            "***TEST - -- WO Created to prove the SCC API -- TEST***",
+            "Email - DWP",
+            "MINOR"
+        )
+        const workOrderPage = new WorkOrderPage(workOrderObj.page)
+        await workOrderPage.checkWorkOrderCompletionTest(
+            workOrderObj.workOrderId!,
+            "KBR Incidents Mailbox",
+            "120",
+            "20",
+            `${actLabour}`,
+            `${actMaterial}`,
+            "All Estimated Costs Provided")
+        console.log("Status is .............................  " + await workOrderPage.woStatusInput.getAttribute("value"))
+        await expect(workOrderPage.woStatusInput).toHaveValue(`${expected}`)
+    });
+});
 
 //AFP Review
 

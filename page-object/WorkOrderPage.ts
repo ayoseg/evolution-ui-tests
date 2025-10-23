@@ -52,7 +52,13 @@ export class WorkOrderPage {
         await this.page.close()
     }
 
-    async checkWorkOrderCompletionTest(workOrderId: string, requestBy: string, estLabour: string | null, estMaterial: string | null, logNoteComment: string) {
+    async checkWorkOrderCompletionTest(workOrderId: string,
+                                       requestBy: string,
+                                       estLabour: string | null,
+                                       estMaterial: string | null,
+                                       actLabour: string | null,
+                                       actMaterial: string | null,
+                                       logNoteComment: string) {
         await this.page.waitForTimeout(2000)
         await this.woResourceLink.click()
         await this.changeWOStatus("Acknowledged")
@@ -74,7 +80,7 @@ export class WorkOrderPage {
         await this.uploadWODocument(workOrderId, "Completion Certificates",
             "Mitie FM (Manned Guarding)",
             "fixtures/files/25 Advanced Guitar Chords.pdf")
-        await this.addActualCosts(estLabour, estMaterial)
+        await this.addActualCosts(actLabour, actMaterial)
         await this.changeWOStatus("Work Order Complete")
         await this.page.getByText("General").first().click()
         await this.page.waitForTimeout(3000)
